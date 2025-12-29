@@ -212,7 +212,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\swachalit\\forex-main\\src\\generated\\prisma",
+      "value": "C:\\Users\\Dell\\Documents\\Projects\\forex-main\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -226,7 +226,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\swachalit\\forex-main\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Dell\\Documents\\Projects\\forex-main\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -240,7 +240,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
