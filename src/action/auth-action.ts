@@ -71,6 +71,27 @@ export const resetPassword = async (newPassword: string, token: string) => {
   }
 };
 
+// REQUEST PASSWORD RESET
+export const requestPasswordReset = async ({ email }: { email: string }) => {
+  try {
+    const { data, error } = await authClient.requestPasswordReset({
+      email,
+      redirectTo: "/reset-password", // This tells Better Auth where to append the token in the email link
+    });
+
+    if (error) {
+      // Better Auth returns { data, error } shape
+      return { error };
+    }
+
+    return { data, error: null };
+  } catch (err) {
+    console.error("Password reset request failed:", err);
+    // Re-throw or return a structured error
+    return { error: { message: "An unexpected error occurred" } };
+  }
+};
+
 //CHANGE PASSWORD
 export const changePassword = async ({
   currentPassword,

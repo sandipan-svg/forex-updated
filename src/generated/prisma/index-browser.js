@@ -201,6 +201,15 @@ exports.Prisma.UserDeliveryAddressScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VerificationScalarFieldEnum = {
+  id: 'id',
+  identifier: 'identifier',
+  value: 'value',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -226,7 +235,8 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   UserProfile: 'UserProfile',
   UserBank: 'UserBank',
-  UserDeliveryAddress: 'UserDeliveryAddress'
+  UserDeliveryAddress: 'UserDeliveryAddress',
+  Verification: 'Verification'
 };
 
 /**

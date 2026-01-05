@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // ← Add this
 import {
   Form,
   FormControl,
@@ -24,7 +25,7 @@ import {
 } from "@/components/ui/form";
 import { signIn } from "@/action/auth-action";
 
-//Define Zod schema
+// Define Zod schema
 const signInSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z
@@ -36,6 +37,8 @@ const signInSchema = z.object({
 type SignInFormValues = z.infer<typeof signInSchema>;
 
 export function SignInForm({ onClose }: { onClose?: () => void }) {
+  const router = useRouter(); // ← For navigation
+
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -44,7 +47,11 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
     },
   });
 
-  const openForgot = () => {};
+  // Navigate to forgot password page
+  const openForgot = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push("/forgot-password");
+  };
 
   const onSubmit = async (values: SignInFormValues) => {
     try {
@@ -56,7 +63,7 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
         return;
       }
       toast.success("Signed in successfully!", {
-        description: "Redirecting to dashboard...",
+        description: "Welcome back!",
       });
       onClose?.();
     } catch (err: unknown) {
@@ -89,6 +96,7 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
                       <Input
                         placeholder="m@example.com"
                         type="email"
+                        autoComplete="email"
                         {...field}
                       />
                     </FormControl>
@@ -101,10 +109,10 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-between">
                       <FormLabel>Password</FormLabel>
                       <Link
-                        href="#"
+                        href="/forgot-password"
                         className="ml-auto text-sm text-blue-600 underline-offset-4 hover:underline"
                         onClick={openForgot}
                       >
@@ -112,15 +120,19 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
                       </Link>
                     </div>
                     <FormControl>
-                      <Input type="password" {...field} />
+                      <Input
+                        type="password"
+                        autoComplete="current-password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? "Signing in..." : "Login"}
             </Button>
           </form>
         </Form>
@@ -128,7 +140,7 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
       <CardFooter className="flex flex-col gap-2">
         <p className="text-sm text-muted-foreground text-center">
           Don’t have an account?{" "}
-          <Link href="/sign-up" className="text-blue-600 hover:underline">
+          <Link href="/sign-up" className="text-blue-600 hover:underline font-medium">
             Sign up
           </Link>
         </p>
