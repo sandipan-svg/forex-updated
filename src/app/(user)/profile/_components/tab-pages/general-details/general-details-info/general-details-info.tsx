@@ -1,11 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,7 +24,7 @@ export default function GeneralDetailsInfo() {
     firstName: "",
     lastName: "",
     email: "",
-    phoneCode: "+91",
+    phoneCode: "",
     phone: "",
     dob: "",
     gender: "",
@@ -89,8 +85,8 @@ export default function GeneralDetailsInfo() {
           firstName: data.firstName || "",
           lastName: data.lastName || "",
           email: data.email || "",
-          phoneCode,
-          phone: phoneNumber,
+          phoneCode: data.phoneCode || "",
+          phone: data.phone || "",
           dob: dobDisplay,
           gender: data.gender || "",
           country: data.country || "India",
@@ -249,12 +245,22 @@ export default function GeneralDetailsInfo() {
         <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
           <div>
             <Label htmlFor="firstName">First Name</Label>
-            <Input id="firstName" name="firstName" value={form.firstName} onChange={onChange} />
+            <Input
+              id="firstName"
+              name="firstName"
+              value={form.firstName}
+              onChange={onChange}
+            />
           </div>
 
           <div>
             <Label htmlFor="lastName">Last Name</Label>
-            <Input id="lastName" name="lastName" value={form.lastName} onChange={onChange} />
+            <Input
+              id="lastName"
+              name="lastName"
+              value={form.lastName}
+              onChange={onChange}
+            />
           </div>
 
           <div>
@@ -265,8 +271,25 @@ export default function GeneralDetailsInfo() {
           <div>
             <Label>Phone</Label>
             <div className="flex gap-2">
-              <Input name="phoneCode" value={form.phoneCode} onChange={onChange} className="w-24" placeholder="+91" />
-              <Input name="phone" value={form.phone} onChange={onChange} placeholder="9876543210" />
+              {/* Country Code - Free text input */}
+              <Input
+                name="phoneCode"
+                value={form.phoneCode}
+                onChange={onChange}
+                placeholder="+91"
+                className="w-24"
+                maxLength={6} // Prevents overly long input
+              />
+
+              {/* Phone Number */}
+              <Input
+                name="phone"
+                value={form.phone}
+                onChange={onChange}
+                placeholder="9876543210"
+                className="flex-1"
+                type="tel"
+              />
             </div>
           </div>
 
@@ -274,7 +297,10 @@ export default function GeneralDetailsInfo() {
             <Label>Date of Birth</Label>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-between text-left font-normal">
+                <Button
+                  variant="outline"
+                  className="w-full justify-between text-left font-normal"
+                >
                   {form.dob || "Pick a date"}
                   <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
                 </Button>
@@ -282,13 +308,21 @@ export default function GeneralDetailsInfo() {
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
+                  captionLayout="dropdown"
                   selected={date}
                   onSelect={(d) => {
                     setDate(d);
-                    setForm({ ...form, dob: d ? d.toISOString().split("T")[0] : "" });
+                    setForm({
+                      ...form,
+                      dob: d ? d.toISOString().split("T")[0] : "",
+                    });
                     setOpen(false);
                   }}
-                  disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                  disabled={(date) =>
+                    date > new Date() || date < new Date("1900-01-01")
+                  }
+                  fromYear={1900}
+                  toYear={new Date().getFullYear()}
                   initialFocus
                 />
               </PopoverContent>
@@ -297,17 +331,33 @@ export default function GeneralDetailsInfo() {
 
           <div>
             <Label htmlFor="gender">Gender</Label>
-            <Input id="gender" name="gender" value={form.gender} onChange={onChange} placeholder="e.g. Male, Female, Other" />
+            <Input
+              id="gender"
+              name="gender"
+              value={form.gender}
+              onChange={onChange}
+              placeholder="e.g. Male, Female, Other"
+            />
           </div>
 
           <div>
             <Label htmlFor="country">Country</Label>
-            <Input id="country" name="country" value={form.country} onChange={onChange} />
+            <Input
+              id="country"
+              name="country"
+              value={form.country}
+              onChange={onChange}
+            />
           </div>
 
           <div>
             <Label htmlFor="language">Language</Label>
-            <Input id="language" name="language" value={form.language} onChange={onChange} />
+            <Input
+              id="language"
+              name="language"
+              value={form.language}
+              onChange={onChange}
+            />
           </div>
 
           <div className="sm:col-span-2">

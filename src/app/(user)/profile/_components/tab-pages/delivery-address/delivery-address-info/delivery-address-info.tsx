@@ -86,27 +86,6 @@ export default function DeliveryAddressInfo() {
     <Card>
       <CardContent className="pt-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <div>
-            <Label htmlFor="fullName">Full Name</Label>
-            <Input
-              id="fullName"
-              name="fullName"
-              value={form.fullName}
-              onChange={onChange}
-              placeholder="John Doe"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="phone">Phone</Label>
-            <Input
-              id="phone"
-              name="phone"
-              value={form.phone}
-              onChange={onChange}
-              placeholder="9876543210"
-            />
-          </div>
 
           <div className="sm:col-span-2">
             <Label htmlFor="addressLine1">Address Line 1</Label>

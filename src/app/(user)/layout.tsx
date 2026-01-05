@@ -3,7 +3,7 @@
 import Header from "@/components/reuseable-compoment/header";
 import { AppSidebar } from "@/components/reuseable-compoment/sidebar/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { LayoutDashboardIcon, UserPen } from "lucide-react";
+import { LayoutDashboardIcon, Package, UserPen } from "lucide-react";
 import React from "react";
 
 export default function UserLayout({
@@ -15,7 +15,7 @@ export default function UserLayout({
     navMenu: [
       {
         title:"dashboard",
-        url:"/user/dashboard",
+        url:"/dashboard",
         icon:LayoutDashboardIcon,
         isActive: true
       },
@@ -23,6 +23,12 @@ export default function UserLayout({
         title: "profile",
         url: "/profile",
         icon: UserPen,
+        isActive: true,
+      },
+      {
+        title: "orders",
+        url: "/orders",
+        icon: Package,
         isActive: true,
       },
     ],

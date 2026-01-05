@@ -8,7 +8,7 @@ import DeliveryAddress from "../tab-pages/delivery-address/delivery-address";
 export default function ProfileTabs() {
   return (
     <Tabs defaultValue="general" className="w-full mt-20">
-      <TabsList className="grid grid-cols-3">
+      <TabsList className="grid grid-cols-3 w-full max-w-md mx-auto mb-8">
         <TabsTrigger value="general">General Details</TabsTrigger>
         <TabsTrigger value="bank">Bank Accounts</TabsTrigger>
         <TabsTrigger value="delivery">Delivery Address</TabsTrigger>

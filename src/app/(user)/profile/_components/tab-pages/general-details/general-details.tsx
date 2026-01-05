@@ -5,7 +5,7 @@ type Props = object;
 
 export default function GeneralDetails({}: Props) {
   return (
-    <div className="pr-6">
+    <div>
       {" "}
       <GeneralDetailsInfo />
     </div>
