@@ -1,6 +1,6 @@
+// components/reuseable-compoment/sidebar/app-sidebar.tsx
 "use client";
 
-import { type LucideIcon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +17,7 @@ export function AppSidebar({
   items: {
     title: string;
     url: string;
-    icon: LucideIcon;
+    icon: string;           // ← Change from LucideIcon to string
     isActive?: boolean;
   }[];
 }) {

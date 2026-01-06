@@ -1,3 +1,4 @@
+// lib/auth/auth.ts (or wherever your betterAuth instance is)
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@/lib/database";
@@ -14,7 +15,6 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user, url }) => {
       try {
         await resend.emails.send({
-          // Use your verified domain here!
           from: "Forex <onboarding@resend.dev>",
           to: user.email,
           subject: "Reset Your Password",
@@ -38,36 +38,35 @@ export const auth = betterAuth({
         });
       } catch (error) {
         console.error("Failed to send reset password email:", error);
-        // Optional: throw error or handle it
       }
     },
     resetPasswordTokenExpiresIn: 3600, // 1 hour
   },
-  plugins: [
-    nextCookies(),
-    customSession(async ({ user }) => {
-      return {
-        user: {
-          ...user,
-          type: user.type, // explicitly re-add it
-        },
-      };
-    }),
-  ],
   trustedOrigins: ["http://localhost:3000"],
   session: {
     expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24,
   },
-  // Add the additional field here
   user: {
     additionalFields: {
       type: {
-        type: "string", // or "string" with enum if you want
-        required: false, // set true if every user must have it
-        defaultValue: "user", // optional: default for new users
-        input: false, // important: prevent users from setting it during signup
+        type: "string",
+        required: false,
+        defaultValue: "user",
+        input: false, // prevents users from setting it during signup
       },
     },
   },
+  plugins: [
+    nextCookies(),
+    customSession(async ({ user }) => {
+      // This ensures `type` is always included in the session/user object
+      return {
+        user: {
+          ...user,
+          type: user.type,
+        },
+      };
+    }),
+  ],
 });

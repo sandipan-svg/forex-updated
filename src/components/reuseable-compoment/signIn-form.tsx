@@ -66,6 +66,20 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
         description: "Welcome back!",
       });
       onClose?.();
+      // Fetch the session to get user type
+      const sessionResp = await fetch("/api/session", {
+        credentials: "include",
+      });
+      const sessionData = await sessionResp.json();
+      const userType = sessionData?.user?.type?.toLowerCase();
+      // console.log("User type:", userType);
+      // console.log("User data:", data.user);
+
+      if (userType === "admin") {
+        router.push("/dashboard");
+      } else {
+        router.push("/profile"); // or "/dashboard", "/home", etc.
+      }
     } catch (err: unknown) {
       console.error(err);
       toast.error("Sign-in failed", {
@@ -131,7 +145,11 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
                 )}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={form.formState.isSubmitting}
+            >
               {form.formState.isSubmitting ? "Signing in..." : "Login"}
             </Button>
           </form>
@@ -140,7 +158,10 @@ export function SignInForm({ onClose }: { onClose?: () => void }) {
       <CardFooter className="flex flex-col gap-2">
         <p className="text-sm text-muted-foreground text-center">
           Don’t have an account?{" "}
-          <Link href="/sign-up" className="text-blue-600 hover:underline font-medium">
+          <Link
+            href="/sign-up"
+            className="text-blue-600 hover:underline font-medium"
+          >
             Sign up
           </Link>
         </p>
