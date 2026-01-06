@@ -3,6 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@/lib/database";
 import { nextCookies } from "better-auth/next-js";
 import { resend } from "@/lib/email";
+import { customSession } from "better-auth/plugins/custom-session";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -42,10 +43,31 @@ export const auth = betterAuth({
     },
     resetPasswordTokenExpiresIn: 3600, // 1 hour
   },
-  plugins: [nextCookies()],
+  plugins: [
+    nextCookies(),
+    customSession(async ({ user }) => {
+      return {
+        user: {
+          ...user,
+          type: user.type, // explicitly re-add it
+        },
+      };
+    }),
+  ],
   trustedOrigins: ["http://localhost:3000"],
   session: {
     expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24,
+  },
+  // Add the additional field here
+  user: {
+    additionalFields: {
+      type: {
+        type: "string", // or "string" with enum if you want
+        required: false, // set true if every user must have it
+        defaultValue: "user", // optional: default for new users
+        input: false, // important: prevent users from setting it during signup
+      },
+    },
   },
 });

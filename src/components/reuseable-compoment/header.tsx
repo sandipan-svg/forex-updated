@@ -8,6 +8,7 @@ type SessionUser = {
   name?: string;
   email?: string;
   image?: string | null;
+  type?: string;
 };
 
 export default function Header() {
@@ -28,7 +29,7 @@ export default function Header() {
   return (
     <header className="w-full h-17 flex items-center px-4 justify-between pr-12">
       <h1 className="text-lg font-semibold capitalize">
-        welcome {user?.name ?? "admin"}
+        welcome {user?.name ?? "admin"} ({user?.type ?? "Guest"})
       </h1>
 
       <div className="flex items-center gap-7">
